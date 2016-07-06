@@ -392,11 +392,11 @@ public class DraggableGesture implements OnTouchListener
 
 					if (constraintY != null && constraintY.containsKeyAndNotNull("start"))
 					{
-						double yStart = TiConvert.toTiDimension(constraintX, "start", TiDimension.TYPE_TOP).getAsPixels(parentView);
+						double yStart = TiConvert.toTiDimension(constraintY, "start", TiDimension.TYPE_TOP).getAsPixels(parentView);
 
 						if (constraintY.containsKeyAndNotNull("end"))
 						{
-							double yEnd = TiConvert.toTiDimension(constraintX, "end", TiDimension.TYPE_TOP).getAsPixels(parentView);
+							double yEnd = TiConvert.toTiDimension(constraintY, "end", TiDimension.TYPE_TOP).getAsPixels(parentView);
 
 							newTop = yStart / parallaxAmount - yEnd;
 						}
