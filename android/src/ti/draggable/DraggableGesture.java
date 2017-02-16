@@ -52,6 +52,8 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewConfiguration;
 
+import android.util.Log;
+
 public class DraggableGesture implements OnTouchListener
 {
 	protected TiUIView draggableView;
@@ -169,14 +171,18 @@ public class DraggableGesture implements OnTouchListener
 
 			double leftEdge = screenX + startLeft;
 			double topEdge = screenY + startTop;
+			double mapLeftEdge = screenX + startLeft;
+			double mapTopEdge = screenY + startTop;
 
 			if (xAxis)
 			{
 				topEdge = viewToDrag.getTop();
+				mapTopEdge = viewToDrag.getTop();
 			}
 			else if (yAxis)
 			{
 				leftEdge = viewToDrag.getLeft();
+				mapLeftEdge = viewToDrag.getLeft();
 			}
 
 			if (noAxis || xAxis)
@@ -225,8 +231,8 @@ public class DraggableGesture implements OnTouchListener
 				}
 			}
 
-			double translationLeft = lastLeft - leftEdge;
-			double translationTop = lastTop - topEdge;
+			double translationLeft = lastLeft - mapLeftEdge;
+			double translationTop = lastTop - mapTopEdge;
 
 			translateMappedProxies(translationLeft, translationTop);
 
@@ -433,6 +439,52 @@ public class DraggableGesture implements OnTouchListener
 
 				translationX = mappedView.getTranslationX() - translationX / parallaxAmount;
 				translationY = mappedView.getTranslationY() - translationY / parallaxAmount;
+
+				Log.d("DRAGGABLE", "mappedView.getTranslationX(): " + mappedView.getTranslationX() + ", mappedView.getTranslationY(): " + mappedView.getTranslationY());
+				Log.d("DRAGGABLE", "translationX: " + translationX + ", translationY: " + translationY);
+
+				if (map.containsKeyAndNotNull("constrain")) {
+					View parentView = this.getConfig().getDecorView();
+					KrollDict constraints = map.getKrollDict("constrain");
+					KrollDict constraintX = constraints.getKrollDict("x");
+					KrollDict constraintY = constraints.getKrollDict("y");
+
+					if (constraintX != null) {
+						if (constraintX.containsKeyAndNotNull("start")) {
+							double xStart = TiConvert.toTiDimension(constraintX, "start", TiDimension.TYPE_LEFT).getAsPixels(parentView);
+
+							if (translationX < (xStart / parallaxAmount)) {
+								translationX = xStart / parallaxAmount;
+							}
+						}
+						if (constraintX.containsKeyAndNotNull("end")) {
+							double xEnd = TiConvert.toTiDimension(constraintX, "end", TiDimension.TYPE_LEFT).getAsPixels(parentView);
+
+							if (translationX > (xEnd / parallaxAmount)) {
+								translationX = xEnd / parallaxAmount;
+							}
+						}
+					}
+
+					if (constraintY != null) {
+						if (constraintY.containsKeyAndNotNull("start")) {
+							double yStart = TiConvert.toTiDimension(constraintY, "start", TiDimension.TYPE_TOP).getAsPixels(parentView);
+
+							if (translationY < (yStart / parallaxAmount)) {
+								translationY = yStart / parallaxAmount;
+							}
+						}
+						if (constraintY.containsKeyAndNotNull("end")) {
+							double yEnd = TiConvert.toTiDimension(constraintY, "end", TiDimension.TYPE_TOP).getAsPixels(parentView);
+
+							if (translationY > (yEnd / parallaxAmount)) {
+								translationY = yEnd / parallaxAmount;
+							}
+						}
+					}
+				}
+
+				Log.d("DRAGGABLE", "new translationX: " + translationX + ", new translationY: " + translationY);
 
 				mappedView.setTranslationX((float) translationX);
 				mappedView.setTranslationY((float) translationY);
