@@ -1,0 +1,6 @@
+"/Users/ani.sinanaj/Mobile/TiDraggable/android/build/generated/java/ti/draggable/DraggableBootstrap.java"
+"/Users/ani.sinanaj/Mobile/TiDraggable/android/src/ti/draggable/ConfigProxy.java"
+"/Users/ani.sinanaj/Mobile/TiDraggable/android/src/ti/draggable/DraggableGesture.java"
+"/Users/ani.sinanaj/Mobile/TiDraggable/android/src/ti/draggable/DraggableImpl.java"
+"/Users/ani.sinanaj/Mobile/TiDraggable/android/src/ti/draggable/DraggableModule.java"
+"/Users/ani.sinanaj/Mobile/TiDraggable/android/src/ti/draggable/ViewProxy.java"
