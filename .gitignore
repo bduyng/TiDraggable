@@ -1,20 +1,41 @@
-# Global
+.DS_Store
+tmp
+bin
+build
 
-build/
-tmp/
-*.zip
+*/*/modules
+*/*/modules*
+.apt_generated
+build.properties
+.svn
+*.pyc
+*~.nib/
+*.pbxuser
+*.perspective
+*.perspectivev3
+xcuserdata
+*.xcuserstate
+*.xcuserdata*
 
-# iOS
+.idea/
+libs/
 
-ios/DerivedData/
-xcuserdata/
-*.xccheckout
-
-# Android
-
+android/clean
+android/ant_clean
+android/.classpath
+android/.gradle
+android/gradle/
+android/.settings
 android/dist/
-android/build-local.properties
-android/libs
+android/launch-*
+android/example/
+nbproject
+/metadata.json
+/ios/metadata.json
 
-!android/build/docs/
-!android/libs/.gitkeep
+android/java-sources.txt
+android/build.properties
+android/.project
+android/platform/README.md
+/ios/dist
+/android/.gradle
