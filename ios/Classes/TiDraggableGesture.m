@@ -114,6 +114,35 @@
     }
 }
 
+// CREDIT: https://github.com/mikefogg/TiDraggable/commit/bebd0ddd2836faa08e86f08619b7503977ecc5b0
+- (void)removeGesture:(id)args
+{
+    BOOL gestureIsAttached = [self.proxy.view.gestureRecognizers containsObject:self.gesture];
+    
+    if (gestureIsAttached && [self.proxy viewReady])
+    {
+        [self.proxy.view removeGestureRecognizer:self.gesture];
+        
+        TiViewProxy* panningProxy = (TiViewProxy*)[self.proxy.view proxy];
+        
+        [panningProxy fireEvent:@"remove_gesture"];
+    }
+}
+
+- (void)addGesture:(id)args
+{
+    BOOL gestureIsAttached = [self.proxy.view.gestureRecognizers containsObject:self.gesture];
+    
+    if (! gestureIsAttached && [self.proxy viewReady])
+    {
+        [self.proxy.view addGestureRecognizer:self.gesture];
+        
+        TiViewProxy* panningProxy = (TiViewProxy*)[self.proxy.view proxy];
+        
+        [panningProxy fireEvent:@"add_gesture"];
+    }
+}
+
 - (void)panDetected:(UIPanGestureRecognizer *)panRecognizer
 {
     ENSURE_UI_THREAD_1_ARG(panRecognizer);
