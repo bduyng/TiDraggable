@@ -38,5 +38,4 @@ android/java-sources.txt
 android/build.properties
 android/.project
 android/platform/README.md
-/ios/dist
 /android/.gradle
