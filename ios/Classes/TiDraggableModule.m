@@ -38,7 +38,7 @@
 #import <objc/message.h>
 #import "TiDraggableModule.h"
 #import "TiDraggableGesture.h"
-#import "TiUIiOSNavWindowProxy.h"
+// #import "TiUIiOSNavWindowProxy.h"
 
 @implementation TiDraggableModule
 
@@ -74,12 +74,12 @@
 {
     TiViewProxy* proxy = nil;
 
-    if ([name isEqualToString:@"createNavigationWindow"])
-    {
-        proxy = [[[TiUIiOSNavWindowProxy alloc] _initWithPageContext:[self executionContext] args:args] autorelease];
-    }
-    else
-    {
+    // if ([name isEqualToString:@"createNavigationWindow"])
+    // {
+    //     proxy = [[[TiUIiOSNavWindowProxy alloc] _initWithPageContext:[self executionContext] args:args] autorelease];
+    // }
+    // else
+    // {
         Ivar nameLookupIvar = class_getInstanceVariable([super class], "classNameLookup");
         CFMutableDictionaryRef cnLookup = (CFMutableDictionaryRef) object_getIvar(self, nameLookupIvar);
         Class resultClass = (Class) CFDictionaryGetValue(cnLookup, name);
@@ -108,7 +108,7 @@
         }
 
         proxy = [[[resultClass alloc] _initWithPageContext:context args:args] autorelease];
-    }
+    // }
 
     if (proxy)
     {
