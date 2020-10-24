@@ -633,4 +633,15 @@
     }
 }
 
+
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([touch.view isDescendantOfView:self.proxy.view]) {
+        return NO;
+    }
+
+    return YES;
+}
+
 @end
