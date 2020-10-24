@@ -37,62 +37,63 @@
  */
 
 (function () {
-    'use strict';
+  'use strict';
 
-    var Draggable = require('ti.draggable'),
-        mainWindow = Ti.UI.createWindow({
-            backgroundColor : 'white',
-            exitOnClose : true,
-            fullscreen : true
-        }),
-        subscribe = function (proxy, observer) {
-            var key, events, eIndex;
+  var Draggable = require('ti.draggable'),
+    mainWindow = Ti.UI.createWindow({
+      backgroundColor: 'white',
+      exitOnClose: true,
+      fullscreen: true,
+    }),
+    subscribe = function (proxy, observer) {
+      var key, events, eIndex;
 
-            for (key in observer) {
-                if (typeof observer[key] === 'function') {
-                    events = key.split(' ');
+      for (key in observer) {
+        if (typeof observer[key] === 'function') {
+          events = key.split(' ');
 
-                    for (eIndex in events) {
-                        proxy.addEventListener(events[eIndex], observer[key]);
-                    }
-                }
-            }
+          for (eIndex in events) {
+            proxy.addEventListener(events[eIndex], observer[key]);
+          }
+        }
+      }
+    },
+    createDraggableSquare = function (name, color, axis) {
+      var view = Draggable.createView({
+        width: 300,
+        height: 300,
+        borderRadius: 3,
+        backgroundColor: color || 'black',
+        draggableConfig: {
+          axis: axis,
+          minLeft: 0,
+          maxLeft: Ti.Platform.displayCaps.platformWidth - 100,
+          minTop: 0,
+          maxTop: Ti.Platform.displayCaps.platformHeight - 100,
         },
-        createDraggableSquare = function (name, color, axis) {
-            var view = Draggable.createView({
-                    width : 100,
-                    height : 100,
-                    borderRadius : 3,
-                    backgroundColor : color || 'black',
-                    draggableConfig : {
-                        axis : axis,
-                        minLeft : 0,
-                        maxLeft : Ti.Platform.displayCaps.platformWidth - 100,
-                        minTop : 0,
-                        maxTop : Ti.Platform.displayCaps.platformHeight - 100,
-                    }
-                });
+      });
 
-            view.add(Ti.UI.createLabel({
-                text : name
-            }));
+      var slider = Ti.UI.createSlider({});
+      view.add(slider);
 
-            subscribe(view, {
-                'start move end cancel' : function (e) {
-                    console.log(
-                        'Event: ' + e.type,
-                        'Left: ' + e.left,
-                        'Top: ' + e.top
-                    );
-                }
-            });
+      view.add(
+        Ti.UI.createLabel({
+          text: name,
+        }),
+      );
 
-            return view;
-        };
+      subscribe(view, {
+        'start move end cancel': function (e) {
+          console.log('Event: ' + e.type, 'Left: ' + e.left, 'Top: ' + e.top);
+        },
+      });
 
-    mainWindow.add(createDraggableSquare('Horizontal', 'red', 'x'));
-    mainWindow.add(createDraggableSquare('Vertical', 'blue', 'y'));
-    mainWindow.add(createDraggableSquare('Free', 'green'));
+      return view;
+    };
 
-    mainWindow.open();
-}());
+  // mainWindow.add(createDraggableSquare('Horizontal', 'red', 'x'));
+  mainWindow.add(createDraggableSquare('Vertical', 'blue', 'y'));
+  // mainWindow.add(createDraggableSquare('Free', 'green'));
+
+  mainWindow.open();
+})();
